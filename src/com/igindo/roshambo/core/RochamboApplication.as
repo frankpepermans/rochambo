@@ -3,6 +3,7 @@ package com.igindo.roshambo.core {
 	import com.igindo.roshambo.async.Future;
 	import com.igindo.roshambo.domain.GameSetup;
 	import com.igindo.roshambo.domain.Ruleset;
+	import com.igindo.roshambo.events.GameEvent;
 	import com.igindo.roshambo.infrastucture.IRulesetService;
 	
 	import flash.events.ErrorEvent;
@@ -15,16 +16,16 @@ package com.igindo.roshambo.core {
 	public class RochamboApplication extends Application {
 		
 		[Bindable]
-		protected var errorMessage:String;
+		public var errorMessage:String;
 		
 		public function RochamboApplication():void {
 		}
 		
-		protected function setError(message:String):void {
+		public function setError(message:String):void {
 			Alert.show(message, "An error has occurred...");
 		}
 		
-		protected function loadRuleset(service:IRulesetService, uri:String):void {
+		public function loadRuleset(service:IRulesetService, uri:String):Future {
 			const rulesetFuture:Future = service.load(uri);
 			
 			rulesetFuture.onError = function(event:ErrorEvent):void {
@@ -54,6 +55,8 @@ package com.igindo.roshambo.core {
 					);
 				}
 			};
+			
+			return rulesetFuture;
 		}
 	}
 }

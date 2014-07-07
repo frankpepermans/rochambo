@@ -14,10 +14,15 @@
 	
 	<fx:Script>
 		<![CDATA[
+			import com.igindo.roshambo.async.Future;
 			import com.igindo.roshambo.events.GameEvent;
 			
 			private function applicationCompleteHandler():void {
-				loadRuleset(rulesetService, 'assets/rules.json');
+				init();
+			}
+			
+			public function init():Future {
+				return loadRuleset(rulesetService, 'assets/rules.json');
 			}
 			
 			protected function splashScreen_gameStartingHandler(event:GameEvent):void {
@@ -64,6 +69,10 @@
 		</s:Transition>
 	</core:transitions>
 	
+	<!-- 			  -->
+	<!--  BACKGROUND  -->
+	<!--  			  -->
+	
 	<s:Rect left="0" top="0" right="0" bottom="0">
 		<s:fill>
 			<s:BitmapFill source="@Embed('assets/bg-pattern.png')" fillMode="repeat" />
@@ -79,24 +88,28 @@
 		</s:fill>
 	</s:Rect>
 	
-	<!-- game -->
-	<views:GameScreen id="gameScreen"
-					  skinClass="com.igindo.roshambo.skins.GameScreenSkin"
-						includeIn="game"
-						width="100%"
-						height="100%"/>
+	<!-- 			   -->
+	<!--  GAME STATES  -->
+	<!--  			   -->
 	
-	<!-- splash -->
+	<!-- INIT -->
+	<views:InitScreen id="initScreen"
+					  includeIn="init"
+					  width="100%"
+					  height="100%"/>
+	
+	<!-- SPLASH (setup) -->
 	<views:SplashScreen id="splashScreen"
 						includeIn="splash"
 						width="100%"
 						height="100%"
 						gameStarting="splashScreen_gameStartingHandler(event)"/>
 	
-	<!-- init -->
-	<views:InitScreen id="initScreen"
-					  includeIn="init"
-					  width="100%"
-					  height="100%"/>
+	<!-- GAME -->
+	<views:GameScreen id="gameScreen"
+					  skinClass="com.igindo.roshambo.skins.GameScreenSkin"
+						includeIn="game"
+						width="100%"
+						height="100%"/>
 	
 </core:RochamboApplication>
