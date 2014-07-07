@@ -1,0 +1,52 @@
+/* CSS file */
+@namespace s "library://ns.adobe.com/flex/spark";
+@namespace mx "library://ns.adobe.com/flex/mx";
+@namespace core "com.igindo.roshambo.core.*";
+
+core|RochamboApplication {
+	backgroundColor: #fff;
+}
+
+s|List {
+	borderVisible: false;
+	contentBackgroundAlpha: 0;
+	selectionColor: #ffffff;
+}
+
+s|Button {
+	cornerRadius: 0;
+	accentColor: #fff;
+	skinClass: ClassReference("spark.skins.spark.ButtonSkin");
+	fontSize: 24px;
+}
+
+.splash-picker {
+	cornerRadius: 0;
+	fontSize: 28px;
+	color: #333;
+	textAlign: center;
+}
+
+.match-result-label {
+	fontSize: 28px;
+	fontWeight: bold;
+	color: #cc0000;
+}
+
+.actor-score {
+	fontSize: 40px;
+	fontWeight: bold;
+	color: #ffffff;
+}
+
+.asset-numkey {
+	fontSize: 30px;
+	fontWeight: bold;
+	color: #ffffff;
+}
+
+.countdown {
+	fontSize: 100px;
+	fontWeight: bold;
+	color: #333;
+}

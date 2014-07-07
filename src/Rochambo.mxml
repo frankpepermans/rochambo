@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<core:RochamboApplication  xmlns:fx="http://ns.adobe.com/mxml/2009" 
+						   xmlns:s="library://ns.adobe.com/flex/spark" 
+						   xmlns:mx="library://ns.adobe.com/flex/mx"
+						   xmlns:infrastucture="com.igindo.roshambo.infrastucture.*"
+						   xmlns:components="com.igindo.roshambo.components.*"
+						   xmlns:core="com.igindo.roshambo.core.*" 
+						   xmlns:views="com.igindo.roshambo.views.*"
+						   width="800" height="640"
+						   applicationComplete="applicationCompleteHandler()"
+						   currentState="init" >
+	
+	<fx:Style source="assets/rochambo.css" />
+	
+	<fx:Script>
+		<![CDATA[
+			import com.igindo.roshambo.events.GameEvent;
+			
+			private function applicationCompleteHandler():void {
+				loadRuleset(rulesetService, 'assets/rules.json');
+			}
+			
+			protected function splashScreen_gameStartingHandler(event:GameEvent):void {
+				currentState = 'game';
+				
+				gameScreen.gameType = event.gameType;
+				gameScreen.ruleset = event.ruleset;
+				
+				gameScreen.reset();
+			}
+		]]>
+	</fx:Script>
+	
+	<core:states>
+		<s:State name="init" />
+		<s:State name="splash" />
+		<s:State name="game" />
+	</core:states>
+	
+	<fx:Declarations>
+		<infrastucture:RulesetService id="rulesetService" />
+	</fx:Declarations>
+	
+	<core:transitions>
+		<s:Transition fromState="init" toState="splash">
+			<s:Parallel duration="500">
+				<s:Move targets="{[splashScreen]}" yFrom="{height}" yTo="0" />
+				<s:Fade targets="{[initScreen]}" alphaFrom="1" alphaTo="0"/>
+			</s:Parallel>
+		</s:Transition>
+		
+		<s:Transition fromState="splash" toState="game">
+			<s:Parallel duration="500">
+				<s:Move targets="{[gameScreen]}" yFrom="{height}" yTo="0" />
+				<s:Fade targets="{[splashScreen]}" alphaFrom="1" alphaTo="0"/>
+			</s:Parallel>
+		</s:Transition>
+		
+		<s:Transition fromState="game" toState="splash">
+			<s:Parallel duration="500">
+				<s:Move targets="{[splashScreen]}" yFrom="{-height}" yTo="0" />
+				<s:Fade targets="{[gameScreen]}" alphaFrom="1" alphaTo="0"/>
+			</s:Parallel>
+		</s:Transition>
+	</core:transitions>
+	
+	<s:Rect left="0" top="0" right="0" bottom="0">
+		<s:fill>
+			<s:BitmapFill source="@Embed('assets/bg-pattern.png')" fillMode="repeat" />
+		</s:fill>
+	</s:Rect>
+	
+	<s:Rect left="0" top="0" right="0" bottom="0">
+		<s:fill>
+			<s:LinearGradient rotation="90">
+				<s:GradientEntry color="#cccccc" alpha=".0" />
+				<s:GradientEntry color="#cccccc" alpha="1.0" />
+			</s:LinearGradient>
+		</s:fill>
+	</s:Rect>
+	
+	<!-- game -->
+	<views:GameScreen id="gameScreen"
+					  skinClass="com.igindo.roshambo.skins.GameScreenSkin"
+						includeIn="game"
+						width="100%"
+						height="100%"/>
+	
+	<!-- splash -->
+	<views:SplashScreen id="splashScreen"
+						includeIn="splash"
+						width="100%"
+						height="100%"
+						gameStarting="splashScreen_gameStartingHandler(event)"/>
+	
+	<!-- init -->
+	<views:InitScreen id="initScreen"
+					  includeIn="init"
+					  width="100%"
+					  height="100%"/>
+	
+</core:RochamboApplication>

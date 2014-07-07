@@ -1,0 +1,98 @@
+[
+   {
+   	  "theme":"assets/rps.png",
+      "name":"rock-paper-scissors",
+      "assets":[
+         {
+            "name":"rock",
+            "asset":"assets/rock.jpg"
+         },
+         {
+            "name":"paper",
+            "asset":"assets/paper.jpg"
+         },
+         {
+            "name":"scissors",
+            "asset":"assets/scissors.jpg"
+         }
+      ],
+      "matrix":[
+         [ 0, -1,  1],
+         [ 1,  0, -1],
+         [-1,  1,  0]
+      ],
+      "relations":[
+         [null, null, "beats"],
+         ["beats", null, null],
+         [null, "beats", null]
+      ]
+   },
+   {
+   	  "theme":"assets/sheldon.png",
+      "name":"rock-paper-scissors-lizard-spock",
+      "assets":[
+         {
+            "name":"rock",
+            "asset":"assets/rock.jpg"
+         },
+         {
+            "name":"paper",
+            "asset":"assets/paper.jpg"
+         },
+         {
+            "name":"scissors",
+            "asset":"assets/scissors.jpg"
+         },
+         {
+            "name":"lizard",
+            "asset":"assets/lizard.jpg"
+         },
+         {
+            "name":"spock",
+            "asset":"assets/spock.jpg"
+         }
+      ],
+      "matrix":[
+         [ 0, -1,  1,  1, -1],
+         [ 1,  0, -1, -1,  1],
+         [-1,  1,  0,  1, -1],
+         [-1,  1, -1,  0,  1],
+         [ 1, -1,  1, -1,  0]
+      ],
+      "relations":[
+         [null, null, "crushes", "crushes", null],
+         ["covers", null, null, null, "disproves"],
+         [null, "cuts", null, "decapacitates", null],
+         [null, "eats", null, null, "poisons"],
+         ["vaporizes", null, "smashes", null, null]
+      ]
+   },
+   {
+      "theme":"assets/throphy.png",
+      "name":"world cup edition",
+      "assets":[
+         {
+            "name":"messi",
+            "asset":"assets/messi.jpg"
+         },
+         {
+            "name":"kompany",
+            "asset":"assets/kompany.jpg"
+         },
+         {
+            "name":"schweinsteiger",
+            "asset":"assets/schweinsteiger.jpg"
+         }
+      ],
+      "matrix":[
+         [ 0,  1, -1],
+         [-1,  0,  1],
+         [ 1, -1,  0]
+      ],
+      "relations":[
+         [null, "dribbles", null],
+         [null, null, "tackles"],
+         ["jumps higher than", null, null]
+      ]
+   }
+]

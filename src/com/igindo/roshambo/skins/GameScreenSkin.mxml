@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Skin xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+		xmlns:mx="library://ns.adobe.com/flex/mx">
+	<!-- host component -->
+	<fx:Metadata>
+		[HostComponent("com.igindo.roshambo.views.GameScreen")]
+	</fx:Metadata>
+	
+	<fx:Script>
+		<![CDATA[
+			import com.igindo.roshambo.actors.PlayerActor;
+		]]>
+	</fx:Script>
+	
+	<fx:Declarations>
+		<fx:Component id="defaultItemRenderer">
+			<s:ItemRenderer>
+				<s:Group id="ellipseMask">
+					<s:Ellipse width="64" height="64">
+						<s:fill>
+							<s:SolidColor color="#000" />
+						</s:fill>
+					</s:Ellipse>
+				</s:Group>
+				
+				<s:Image source="{data.asset}" styleName="splash-picker" width="64" height="64" mask="{ellipseMask}" />
+			</s:ItemRenderer>
+		</fx:Component>
+		
+		<fx:Component id="numkeyEnabledItemRenderer">
+			<s:ItemRenderer>
+				<fx:Declarations>
+					<s:GlowFilter id="glowFilter" color="#333" blurX="4" blurY="4" strength="18" />
+				</fx:Declarations>
+				
+				<s:Group id="ellipseMask">
+					<s:Ellipse width="64" height="64">
+						<s:fill>
+							<s:SolidColor color="#000" />
+						</s:fill>
+					</s:Ellipse>
+				</s:Group>
+				
+				<s:Image source="{ data.asset }" styleName="splash-picker" width="64" height="64" mask="{ellipseMask}" />
+				<s:Label text="{ (itemIndex + 1).toString() }" horizontalCenter="0" verticalCenter="0" styleName="asset-numkey" filters="{ [glowFilter] }" />
+			</s:ItemRenderer>
+		</fx:Component>
+	</fx:Declarations>
+	
+	<s:states>
+		<s:State name="countdown" />
+		<s:State name="timer" />
+		<s:State name="result" />
+	</s:states>
+	
+	<s:Image source="{ hostComponent.ruleset.theme }" horizontalCenter="0" bottom="0" />
+	
+	<s:VGroup includeIn="countdown"
+			  verticalCenter="-70"
+			  horizontalCenter="0"
+			  horizontalAlign="center">
+		<s:Label text="Player one: use mouse" styleName="splash-picker" visible="{ (hostComponent.leftActor is PlayerActor) }" includeInLayout="{ (hostComponent.leftActor is PlayerActor) }"/>
+		<s:Label text="Player two: use numpad keys" styleName="splash-picker" visible="{ (hostComponent.rightActor is PlayerActor) }" includeInLayout="{ (hostComponent.rightActor is PlayerActor) }"/>
+		<s:Spacer height="40" />
+		<s:Label id="countdown" styleName="countdown" text="3"/>
+	</s:VGroup>
+	
+	<s:VGroup includeIn="timer"
+			  verticalCenter="0"
+			  horizontalCenter="0"
+			  horizontalAlign="center">
+		<s:Label text="Make a selection before the timer runs out!" styleName="splash-picker"/>
+		<mx:ProgressBar id="timerBar" width="250" label="" mode="manual" />
+	</s:VGroup>
+	
+	<s:VGroup includeIn="result"
+			  verticalCenter="-30"
+			  horizontalCenter="0"
+			  horizontalAlign="center"
+			  gap="20">
+		<s:Label text="{hostComponent.result}" styleName="match-result-label"/>
+		<s:Group width="400"
+				  height="128">
+			<s:Rect width="144" height="144">
+				<s:fill>
+					<s:SolidColor color="{ (hostComponent.result.result == 1) ? 0x33ff33 : 0xcccccc }" />
+				</s:fill>
+			</s:Rect>
+			
+			<s:Image source="{hostComponent.leftActor.selectedAsset.asset}" width="128" height="128"
+					 left="8" top="8"/>
+			
+			<s:Image source="assets/versus.png" width="120" height="100"
+					 horizontalCenter="0"
+					 verticalCenter="0"/>
+			
+			<s:Rect width="144" height="144" right="0">
+				<s:fill>
+					<s:SolidColor color="{ (hostComponent.result.result == -1) ? 0x33ff33 : 0xcccccc }" />
+				</s:fill>
+			</s:Rect>
+			
+			<s:Image source="{hostComponent.rightActor.selectedAsset.asset}" width="128" height="128"
+					 right="8" top="8"/>
+		</s:Group>
+	</s:VGroup>
+	
+	<s:Group width="100"
+			 height="100%"
+			 left="0">
+		<s:Rect width="100%"
+				height="100%">
+			<s:fill>
+				<s:SolidColor color="#ff9900" />
+			</s:fill>
+		</s:Rect>
+		<s:VGroup width="100%"
+				  height="100%"
+				  gap="30"
+				  horizontalAlign="center">
+			<s:BitmapImage source="{ hostComponent.getActorIconSource(hostComponent.leftActor) }" />
+			<s:List id="leftRulesetAssets"
+					dataProvider="{hostComponent.selectableRulesetAssets}"
+					width="64"
+					height="100%"
+					itemRenderer="{ defaultItemRenderer }">
+				<s:layout>
+					<s:VerticalLayout gap="10"/>
+				</s:layout>
+			</s:List>
+			<s:Label text="{hostComponent.leftActor.score}" styleName="actor-score" />
+		</s:VGroup>
+	</s:Group>
+	
+	<s:Group width="100"
+			 height="100%"
+			 right="0">
+		<s:Rect width="100%"
+				height="100%">
+			<s:fill>
+				<s:SolidColor color="#3399ff" />
+			</s:fill>
+		</s:Rect>
+		<s:VGroup width="100%"
+				  height="100%"
+				  gap="30"
+				  horizontalAlign="center">
+			<s:BitmapImage source="{ hostComponent.getActorIconSource(hostComponent.rightActor) }" />
+			<s:List id="rightRulesetAssets"
+					dataProvider="{hostComponent.selectableRulesetAssets}"
+					width="64"
+					height="100%"
+					itemRenderer="{ (hostComponent.rightActor is PlayerActor) ? numkeyEnabledItemRenderer :  defaultItemRenderer }">
+				<s:layout>
+					<s:VerticalLayout gap="10"/>
+				</s:layout>
+			</s:List>
+			<s:Label text="{hostComponent.rightActor.score}" styleName="actor-score" />
+		</s:VGroup>
+	</s:Group>
+</s:Skin>
