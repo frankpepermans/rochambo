@@ -2,8 +2,7 @@
 	
   <description>Builds the Rochambo Flex game</description>
 	
-  <!-- set global properties for this build -->
-  <property name="projectHome" location="C:/etc/rochambo"/>
+  <!-- IMPORTANT: replace the path to you local SDK Flex bin folder -->
   <property name="flexHome" location="C:/Program Files (x86)/Adobe/Adobe Flash Builder 4.5/sdks/4.6.0/bin"/>
   
   <target name="init" depends="clean">
@@ -18,12 +17,18 @@
     </delete>    
   </target>
   
-  <target name="build" depends="init" description="compile the FLEX source using MXMLC and copy assets" >    
+  <target name="build" depends="init" description="compile the FLEX source using MXMLC, generate docs and copy assets" >    
     <exec executable="${flexHome}/mxmlc.exe">
-      <arg line="${projectHome}/src/Rochambo.mxml -output ${projectHome}\bin-ant\Rochambo.swf -compiler.optimize -default-size 800 640 -metadata.creator FrankPepermans -metadata.title Rochambo -default-background-color 0xcccccc -debug=false -locale en_US -static-link-runtime-shared-libraries=true -omit-trace-statements=true"/>
+      <arg line="src/Rochambo.mxml -output bin-ant\Rochambo.swf -compiler.optimize -default-size 800 640 -metadata.creator FrankPepermans -metadata.title Rochambo -default-background-color 0xcccccc -debug=false -locale en_US -static-link-runtime-shared-libraries=true -omit-trace-statements=true"/>
     </exec>
 	
-	<copydir src="src/assets" dest="bin-ant/assets"/>   
+	<exec executable="${flexHome}/asdoc.exe">
+      <arg line="-source-path src -doc-sources src -output bin-ant/docs"/>
+    </exec>
+	
+	<copy todir="bin-ant/assets">
+    	<fileset dir="src/assets"/>
+  	</copy>
   </target>
   
 </project>
