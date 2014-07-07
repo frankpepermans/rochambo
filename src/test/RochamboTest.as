@@ -1,12 +1,10 @@
 package test {
 	
 	import com.igindo.roshambo.domain.Ruleset;
+	import com.igindo.roshambo.domain.RulesetAsset;
 	
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
-	
-	import flexunit.framework.Assert;
-	import flexunit.framework.AssertionFailedError;
 	
 	import org.flexunit.async.Async;
 	
@@ -53,6 +51,20 @@ package test {
 						}
 					}
 				);
+				
+				// testing one match up, paper beats rock
+				var defaultRuleset:Ruleset = result[0];
+				
+				var rockAsset:RulesetAsset = result[0].assets[0];
+				var paperAsset:RulesetAsset = result[0].assets[1];
+				var scissorsAsset:RulesetAsset = result[0].assets[2];
+				
+				// paper beats rock...
+				if (defaultRuleset.matchUp(paperAsset, rockAsset).result != 1) dispatcher.dispatchEvent(new Event('fail'));
+				// scissors beats paper...
+				if (defaultRuleset.matchUp(scissorsAsset, paperAsset).result != 1) dispatcher.dispatchEvent(new Event('fail'));
+				// rock beats scissors...
+				if (defaultRuleset.matchUp(rockAsset, scissorsAsset).result != 1) dispatcher.dispatchEvent(new Event('fail'));
 			};
 		}
 	}
