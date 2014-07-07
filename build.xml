@@ -1,0 +1,29 @@
+<project name="rochambo_build" default="build" basedir=".">
+	
+  <description>Builds the Rochambo Flex game</description>
+	
+  <!-- set global properties for this build -->
+  <property name="projectHome" location="C:/etc/rochambo"/>
+  <property name="flexHome" location="C:/Program Files (x86)/Adobe/Adobe Flash Builder 4.5/sdks/4.6.0/bin"/>
+  
+  <target name="init" depends="clean">
+    <!-- Create the time stamp -->
+    <tstamp/>
+  	<mkdir dir="bin-ant" />
+  </target>
+  
+  <target name="clean" description="clean up" >
+    <delete includeemptydirs="true">
+      <fileset dir="bin-ant" includes="**/*"/>
+    </delete>    
+  </target>
+  
+  <target name="build" depends="init" description="compile the FLEX source using MXMLC and copy assets" >    
+    <exec executable="${flexHome}/mxmlc.exe">
+      <arg line="${projectHome}/src/Rochambo.mxml -output ${projectHome}\bin-ant\Rochambo.swf -compiler.optimize -default-size 800 640 -metadata.creator FrankPepermans -metadata.title Rochambo -default-background-color 0xcccccc -debug=false -locale en_US -static-link-runtime-shared-libraries=true -omit-trace-statements=true"/>
+    </exec>
+	
+	<copydir src="src/assets" dest="bin-ant/assets"/>   
+  </target>
+  
+</project>
